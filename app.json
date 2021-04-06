@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/internetblacksmith/postgres-example",
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rake setup:bootstrap"
+  },
+  "env": {
+    "ADMIN_USERNAME": {
+      "description": "the username used ot authenticate the user",
+      "value": ""
+    },
+    "ADMIN_PASSWORD": {
+      "description": "the password used ot authenticate the user",
+      "value": ""
+    }
+  }
+}
+

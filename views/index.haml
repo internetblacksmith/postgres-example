@@ -1,0 +1,91 @@
+!!!
+%html.no-js{lang: "en"}
+  %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "ie=edge", "http-equiv" => "x-ua-compatible"}/
+    %title
+    %meta{content: "", name: "description"}/
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}
+    %link{rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css", integrity: "sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6", crossorigin: "anonymous"}
+    %link{href: "css/main.css", rel: "stylesheet"}/
+  %body
+    /[if lt IE 8]
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    .container
+      .pricing-header.p-3.pb-md-4.mx-auto.text-center
+        %h1.display-4.fw-normal Postgres Test
+        %p.fs-5.text-muted 
+          to connect to the database use:
+        %pre
+          %code
+            = "adapter:..#{@db.scheme},\n"
+            = "host:.....#{@db.host},\n"
+            = "username:.#{@db.user},\n"
+            = "password:.#{@db.password},\n"
+            = "database:.#{@db.path[1..-1]},\n"
+      %main
+        .row.row-cols-1.row-cols-md-3.mb-3.text-center
+          .col
+            %div{ class: "card mb-4 rounded-3 shadow-sm #{ @current_status == "todo" ? "border-primary": ""} "}
+              %div{class: "card-header py-3 #{@current_status == "todo" ? "text-white bg-primary border-primary" : "" }"}
+                %h4.my-0.fw-normal Single
+              .card-body
+                %p The soimpliest fo the configuration with only one table
+                %ul.list-unstyled.mt-3.mb-4
+                  %li Todo
+                %p configured as a simple todo app where each of the row in the table rappresent a todo action
+              .card-footer
+                -if @current_status == "todo"
+                  %button.w-100.btn.btn-lg.btn-outline-primary.disabled Current
+                - else
+                  %form{action: "setup", method: :post}
+                    %input{name: "config", type: "hidden", value: "todo"}
+                    %button.w-100.btn.btn-lg.btn-primary{:type => "submit"} Setup
+          .col
+            %div{ class: "card mb-4 rounded-3 shadow-sm #{ @current_status == "song" ? "border-primary": ""} "}
+              %div{class: "card-header py-3 #{@current_status == "song" ? "text-white bg-primary border-primary" : "" }"}
+                %h4.my-0.fw-normal One to Many
+              .card-body
+                %p Setup the database as a application for the database of a music app whith three tables
+                %ul.list-unstyled.mt-3.mb-4
+                  %li Artist
+                  %li Albums
+                  %li Songs
+                %p an artist has many albums and each albums has many song
+              .card-footer
+                -if @current_status == "song"
+                  %button.w-100.btn.btn-lg.btn-outline-primary.disabled Current
+                - else
+                  %form{action: "setup", method: :post}
+                    %input{name: "config", type: "hidden", value: "song"}
+                    %button.w-100.btn.btn-lg.btn-primary{:type => "submit"} Setup
+          .col
+            %div{ class: "card mb-4 rounded-3 shadow-sm #{ @current_status == "chat" ? "border-primary": "" }"}
+              %div{class: "card-header py-3 #{@current_status == "chat" ? "text-white bg-primary border-primary" : "" }"}
+                %h4.my-0.fw-normal Many to Many
+              .card-body
+                %p The most complex configuration where the element of two tables have a connection with many elements of the other table, 
+                %ul.list-unstyled.mt-3.mb-4
+                  %li User
+                  %li Channel
+                  %li Channel Membership
+                %p the channel_membership table is used to create a many yo many connection where a user has membership to multiple channels and a channel has many user
+              .card-footer
+                -if @current_status == "chat"
+                  %button.w-100.btn.btn-lg.btn-outline-primary.disabled Current
+                - else
+                  %form{action: "setup", method: :post}
+                    %input{name: "config", type: "hidden", value: "chat"}
+                    %button.w-100.btn.btn-lg.btn-primary{:type => "submit"} Setup
+
+        - case @current_status
+        - when "todo"
+          = haml :todo_index
+        - when "song"
+          = haml :song_index
+        - when "chat"
+          = haml :chat_index
+
+    %script{src: "https://code.jquery.com/jquery-3.6.0.min.js",                            integrity: "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=",                     crossorigin: :anonymous}
+    %script{src: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js", integrity: "sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf", crossorigin: "anonymous"}
+    %script{src: "js/main.js"}

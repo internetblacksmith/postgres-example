@@ -1,0 +1,24 @@
+.row
+  .col
+    %h1 Songs:
+.row
+  .col-md-8.offset-md-2
+    .accordion
+      .accordion-item
+        - @artists.each do |artist|
+          %h2.accordion-header
+            %button.accordion-button.collapsed{"aria-controls" => "collapse_#{artist.id}", "aria-expanded" => "false", "data-bs-target" => "#collapse_#{artist.id}", "data-bs-toggle" => "collapse", :type => "button"}= artist.name
+          %div{ id: "collapse_#{artist.id}", class: "accordion-collapse collapse"}
+            .accordion-body
+              - artist.albums.each do |album|
+                %h2= "#{album.title} (#{album.formatted_release_date})"
+                %table.table
+                  %thead
+                    %tr
+                      %th{:scope => "col"} #
+                      %th{:scope => "col"} Title
+                  %tbody
+                    - album.songs.each do |song|
+                      %tr
+                        %th{:scope => "row"}= song.order
+                        %td= song.title

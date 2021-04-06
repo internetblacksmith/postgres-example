@@ -1,0 +1,11 @@
+.row
+  .col-md-4.offset-md-2
+    %h1 Users:
+    .list-group
+      - @users.each do |user|
+        %a{id: "user_#{user.id}", class: "list-group-item list-group-item-action users #{user.channels.map{ |c| "channel_#{c.id}"}.join(" ")}", href: "javascript:void(0);"}= user.name
+  .col-md-4.offset-md-2
+    %h1 Channels:
+    .list-group
+      - @channels.each do |channel|
+        %a{id: "channel_#{channel.id}", class: "list-group-item list-group-item-action channels #{channel.users.map{ |u| "user_#{u.id}"}.join(" ")}", href: "javascript:void(0);"}= channel.title

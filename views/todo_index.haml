@@ -1,0 +1,9 @@
+.row
+  .col
+    %h1 Todoes:
+.row
+  .col-md-6.offset-md-3
+    %ul.list-group
+      - @todos.each do |todo|
+        %li.list-group-item
+          %input.form-check-input.me-1{"aria-label" => "...", type: :checkbox, value: :done, checked: todo.completed}= todo.title
